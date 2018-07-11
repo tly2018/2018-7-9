@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC   
+    "-//mybatis.org//DTD Mapper 3.0//EN"  
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+    <mapper namespace="com.neuedu.dao.TwoDao">
+   <resultMap type="Two" id="twomap">
+    <result property="no" column="id"/>
+    <result property="pname" column="name"/>
+    <result property="p" column="pid"/>
+    </resultMap> 
+	<sql id="a">
+		<if test="no!=null">
+			id
+		</if>
+		<if test="pname!=null">
+			name
+		</if>
+		<if test="p!=null">
+			pid
+		</if>
+	</sql>
+    	<select id="getAll" resultMap="twomap" parameterType="Two"  >
+    		select id,name,pid from two   		
+    		<!-- 动态sql -->
+			<!-- <where>
+				<if test="pname!=null">
+					and name like concat('%',#{pname},'%')
+				</if>
+			</where> --> 
+			<if test="withPage==1">
+				limit #{startPage},#{pageSize}
+			</if>
+    	</select>
+    	<select id="getOne" resultMap="twomap" parameterType="Two" >
+    		select * from two where name like concat('%'+#{pname}+'%')
+    	</select>
+    </mapper>
